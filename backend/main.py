@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from backend.db.database import init_db
-from backend.routes import upload, analysis, sandbox, stats, websocket, report, search, export
+from backend.routes import upload, analysis, sandbox, stats, websocket, report, search, export, health
 from backend.db.database import engine, Base
 from backend.db import elastic
 
@@ -63,11 +63,7 @@ app.include_router(search.router, prefix="/api/search", tags=["Global Search"])
 app.include_router(stats.router, prefix="/api", tags=["Dashboard"])
 app.include_router(websocket.router, prefix="/api", tags=["WebSocket"])
 app.include_router(sandbox.router, prefix="/api", tags=["Sandbox"])
-
-
-@app.get("/health")
-async def health():
-    return {"status": "ok", "service": "DroidRaksha API v1.0"}
+app.include_router(health.router, tags=["Health"])
 
 
 if __name__ == "__main__":

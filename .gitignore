@@ -1,0 +1,37 @@
+# Environment Variables
+.env
+.env.*
+*.env
+
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.db
+*.sqlite3
+
+# OS specific
+.DS_Store
+
+# Frontend build/cache
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Uploads and temporary files
+uploads/
+/tmp/
+*.pcap
+*.pdf
+maldroid/
+*.log

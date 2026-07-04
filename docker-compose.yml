@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  # ─── Backend ────────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: droidraksha_backend
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - ABUSEIPDB_API_KEY=${ABUSEIPDB_API_KEY}
+      - OTX_API_KEY=${OTX_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MOBSF_API_KEY=${MOBSF_API_KEY:-}
+      - ELASTICSEARCH_URL=${ELASTICSEARCH_URL:-}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      - BACKEND_PORT=8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./rules:/app/rules
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - droidraksha
+
+  # ─── Frontend ───────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: droidraksha_frontend
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - droidraksha
+
+networks:
+  droidraksha:
+    driver: bridge
+
+volumes:
+  uploads:
