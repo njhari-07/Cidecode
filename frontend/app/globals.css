@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Backgrounds — clean dark theme matching target */
+    --background:     transparent;
+    --surface:        rgba(0, 0, 0, 0.2);
+    --surface-raised: rgba(20, 20, 20, 0.3);
+
+    /* Borders */
+    --border:        rgba(255, 255, 255, 0.15);
+    --border-active: rgba(255, 255, 255, 0.8);
+
+    /* Text */
+    --text-primary:   #ffffff;
+    --text-secondary: #f8fafc;
+    --text-muted:     #94a3b8;
+    --text-warning:   #f59e0b;
+    --text-danger:    #ef4444;
+
+    /* Accent shortcuts */
+    --accent-primary:   #ffffff;
+    --accent-secondary: #94a3b8;
+    --accent-warning:   #f59e0b;
+
+    /* Glows - softened for a cleaner, modern look */
+    --glow-primary:  0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.05);
+    --glow-warning:  0 0 8px rgba(245, 158, 11, 0.3), 0 0 20px rgba(245, 158, 11, 0.15);
+    --glow-danger:   0 0 8px rgba(239, 68, 68, 0.3), 0 0 20px rgba(239, 68, 68, 0.15);
+
+    /* Text glows - softened */
+    --text-glow-primary:  0 0 4px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+    --text-glow-warning:  0 0 4px rgba(245, 158, 11, 0.4), 0 0 10px rgba(245, 158, 11, 0.2);
+    --text-glow-danger:   0 0 4px rgba(239, 68, 68, 0.4), 0 0 10px rgba(239, 68, 68, 0.2);
+
+    /* Clip-paths - kept for structural consistency */
+    --clip-corner-sm: polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px);
+    --clip-corner-md: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+    --clip-corner-lg: polygon(16px 0%, 100% 0%, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0% 100%, 0% 16px);
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    font-size: 14px;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  body {
+    background-color: #000000;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    @apply antialiased;
+  }
+
+  ::selection {
+    background: var(--accent-primary);
+    color: var(--background);
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-active); box-shadow: var(--glow-primary); }
+
+@layer utilities {
+  /* ─── Scanlines Overlay ────────────────────────────────────────── */
+  .scanlines {
+    position: relative;
+    overflow: hidden;
+  }
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.12) 3px,
+      rgba(0, 0, 0, 0.12) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ─── Sci-Fi Effects ────────────────────────────────────────────── */
+  .clip-corner-sm { clip-path: var(--clip-corner-sm); }
+  .clip-corner-md { clip-path: var(--clip-corner-md); }
+  .clip-corner-lg { clip-path: var(--clip-corner-lg); }
+
+  /* ─── Glass & Panels ────────────────────────────────────────────── */
+  .glass-panel {
+    @apply bg-black/30 backdrop-blur-md border border-white/10 relative shadow-xl;
+  }
+  
+  /* Corner Brackets Effect */
+  .corner-brackets::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid var(--text-muted);
+    border-left: 1px solid var(--text-muted);
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+  .corner-brackets::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-bottom: 1px solid var(--text-muted);
+    border-right: 1px solid var(--text-muted);
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+  .corner-brackets:hover::before,
+  .corner-brackets:hover::after {
+    border-color: var(--accent-primary);
+  }
+  
+  .corner-brackets > span:first-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid var(--text-muted);
+    border-right: 1px solid var(--text-muted);
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+  .corner-brackets > span:first-child::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-bottom: 1px solid var(--text-muted);
+    border-left: 1px solid var(--text-muted);
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+  .corner-brackets:hover > span:first-child::before,
+  .corner-brackets:hover > span:first-child::after {
+    border-color: var(--accent-primary);
+  }
+
+  /* ─── Buttons ────────────────────────────────────────────────────── */
+  .btn-hex {
+    @apply relative inline-flex items-center justify-center bg-white/5 backdrop-blur-md border border-white/20 text-white uppercase font-mono tracking-widest transition-all duration-300 overflow-hidden hover:bg-white hover:text-black focus:outline-none;
+    clip-path: var(--clip-corner-md);
+  }
+  .btn-hex::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  .btn-hex:hover::before {
+    left: 100%;
+  }
+
+  .btn-hex-primary {
+    @apply bg-white border-transparent text-black hover:bg-gray-200 hover:text-black;
+  }
+
+  /* ─── Badges & Inputs ───────────────────────────────────────────── */
+  .sys-badge {
+    @apply bg-surface border border-border;
+  }
+  
+  .cyber-input {
+    @apply w-full bg-surface border border-border text-primary px-4 py-2 outline-none focus:border-border-active transition-colors duration-300 font-mono;
+  }
+
+  /* ─── Backgrounds ───────────────────────────────────────────────── */
+  .grid-bg {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  }
+  
+  /* ─── Risks ─────────────────────────────────────────────────────── */
+  .risk-critical { color: var(--text-danger); }
+  .risk-high     { color: var(--text-warning); }
+  .risk-medium   { color: #fbbf24; }
+  .risk-low      { color: #10b981; }
+  .risk-safe     { color: #3b82f6; }
+
+  .risk-badge-critical { @apply bg-[rgba(239,68,68,0.1)] text-danger border border-[rgba(239,68,68,0.3)]; box-shadow: var(--glow-danger); }
+  .risk-badge-high     { @apply bg-[rgba(245,158,11,0.1)] text-warning border border-[rgba(245,158,11,0.3)]; box-shadow: var(--glow-warning); }
+  .risk-badge-medium   { @apply bg-[rgba(251,191,36,0.1)] text-[#fbbf24] border border-[rgba(251,191,36,0.3)]; }
+  .risk-badge-low      { @apply bg-[rgba(16,185,129,0.1)] text-[#10b981] border border-[rgba(16,185,129,0.3)]; }
+  .risk-badge-safe     { @apply bg-[rgba(59,130,246,0.1)] text-[#3b82f6] border border-[rgba(59,130,246,0.3)]; }
+}
+
+/* ─── Animations ──────────────────────────────────────────────────── */
+@keyframes scramble {
+  0% { opacity: 0.8; transform: skewX(-10deg); }
+  20% { opacity: 1; transform: skewX(10deg); filter: hue-rotate(90deg); }
+  40% { opacity: 0.9; transform: skewX(-10deg); }
+  60% { opacity: 1; transform: skewX(10deg); }
+  80% { opacity: 0.8; transform: skewX(-10deg); }
+  100% { opacity: 1; transform: skewX(0deg); filter: none; }
+}
+
+.hover-scramble:hover {
+  animation: scramble 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.stagger-group .stagger-item {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+.stagger-group .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-group .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-group .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-group .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-group .stagger-item:nth-child(5) { animation-delay: 0.5s; }
